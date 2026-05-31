@@ -8,14 +8,12 @@ on:
 
 jobs:
   build:
-    # Cambiado de ubuntu-latest a windows-latest para generar un ejecutable .exe nativo
     runs-on: windows-latest
 
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    # Crow es una biblioteca de cabeceras C++, en Windows se descarga de forma idéntica
     - name: Install Crow Framework
       shell: bash
       run: |
@@ -25,9 +23,14 @@ jobs:
         cmake .. -DCROW_BUILD_EXAMPLES=OFF -DCROW_BUILD_TESTS=OFF
         cmake --build . --target install --config Release
 
-    # Las máquinas windows-latest ya incluyen Vulkan SDK, solo verificamos que CMake lo detecte
     - name: Configure CMake (Windows + Vulkan)
       run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DS2_VULKAN=ON
     
     - name: Build Project
       run: cmake --build build --config Release --parallel
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: 2s-Windows11-Vulkan
+        path: build/Release/2s.exe
