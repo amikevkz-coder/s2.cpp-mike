@@ -17,11 +17,7 @@ jobs:
         submodules: recursive
 
     - name: Install Vulkan SDK
-      run: 
-        sudo apt-get update
-        sudo apt-get install -y vulkan-tools vulkan-headers glslang-tools
-        sudo apt-get update
-        sudo apt-get install -y vulkan-tools libvulkan-dev glslang-tools
+      run: sudo apt-get update && sudo apt-get install -y vulkan-tools vulkan-headers glslang-tools libvulkan-dev glslang-tools
 
     - name: Configure CMake
       run: cmake -B build -DCMAKE_BUILD_TYPE=Release
