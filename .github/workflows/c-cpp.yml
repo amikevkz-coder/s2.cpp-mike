@@ -16,12 +16,7 @@ jobs:
 
     - name: Install Crow Framework
       shell: bash
-      run: |
-        git clone https://github.com
-        cd Crow
-        mkdir build && cd build
-        cmake .. -DCROW_BUILD_EXAMPLES=OFF -DCROW_BUILD_TESTS=OFF
-        cmake --build . --target install --config Release
+      run: git clone https://github.com && cd Crow && mkdir build && cd build && cmake .. -DCROW_BUILD_EXAMPLES=OFF -DCROW_BUILD_TESTS=OFF && cmake --build . --target install --config Release
 
     - name: Configure CMake (Windows + Vulkan)
       run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DS2_VULKAN=ON
