@@ -17,7 +17,7 @@ jobs:
     - name: Install Build Dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y cmake build-essential libboost-all-dev asio-dev
+        sudo apt-get install -y cmake build-essential libboost-all-dev libasio-dev
 
     - name: Install Crow Framework
       run: |
