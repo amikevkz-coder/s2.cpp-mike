@@ -1,4 +1,4 @@
-name: CMake CI
+name: Windows CMake CI
 
 on:
   push:
@@ -8,30 +8,26 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # Cambiado de ubuntu-latest a windows-latest para generar un ejecutable .exe nativo
+    runs-on: windows-latest
 
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
 
-    - name: Install Build Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y cmake build-essential libboost-all-dev libasio-dev
-
+    # Crow es una biblioteca de cabeceras C++, en Windows se descarga de forma idéntica
     - name: Install Crow Framework
+      shell: bash
       run: |
-        git clone https://github.com/CrowCpp/Crow.git
+        git clone https://github.com
         cd Crow
         mkdir build && cd build
         cmake .. -DCROW_BUILD_EXAMPLES=OFF -DCROW_BUILD_TESTS=OFF
-        sudo make install
+        cmake --build . --target install --config Release
 
-    - name: Install Vulkan
-      run: sudo apt-get install -y vulkan-tools libvulkan-dev vulkan-utility-libraries-dev spirv-tools glslc
-
-    - name: Configure CMake
+    # Las máquinas windows-latest ya incluyen Vulkan SDK, solo verificamos que CMake lo detecte
+    - name: Configure CMake (Windows + Vulkan)
       run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DS2_VULKAN=ON
     
     - name: Build Project
-      run: cmake --build build --parallel $(nproc)
+      run: cmake --build build --config Release --parallel
