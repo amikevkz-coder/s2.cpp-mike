@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: CMake CI
 
 on:
   push:
@@ -16,10 +16,8 @@ jobs:
       with:
         submodules: recursive
 
-    - name: Install Build Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential libcurl4-openssl-dev
+    - name: Configure CMake
+      run: cmake -B build -DCMAKE_BUILD_TYPE=Release
 
-    - name: Compile Project
-      run: make
+    - name: Build Project
+      run: cmake --build build --config Release
